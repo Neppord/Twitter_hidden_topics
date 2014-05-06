@@ -23,6 +23,13 @@ def is_retweet(word_list):
     else:
         return True
 
+def generate_save_path(internal_path, dirname,  filename):
+  """
+  example:
+  >>> generate_save_path("/home/user/data_dir/", "files", "file")
+  '/home/user/data_dir/files/file.txt'
+  """
+  return os.path.join(internal_path, dirname, filename + ".txt")
 
 def saveToFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
