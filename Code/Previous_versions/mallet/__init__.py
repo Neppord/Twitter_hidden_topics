@@ -1,3 +1,4 @@
+#coding: latin1
 import io
 import os
 import random
@@ -30,6 +31,36 @@ def generate_save_path(internal_path, dirname,  filename):
   '/home/user/data_dir/files/file.txt'
   """
   return os.path.join(internal_path, dirname, filename + ".txt")
+
+def write_words(file_object, words):
+  """
+  writes words to a file
+
+  A wordlist file consists of space seperated words:
+  >>> from StringIO import * ;f=StringIO();write_words(f, [
+  ... "one", "two" , "three"
+  ... ]);f.getvalue()
+  'one two three '
+
+  Words that are None are not writen:
+
+  >>> from StringIO import * ;f=StringIO();write_words(f, [
+  ... "one", None, "two" , "three"
+  ... ]);f.getvalue()
+  'one two three '
+
+  Words with utf-8 are encoded:
+
+  >>> from StringIO import * ;f=StringIO();write_words(f, [
+  ... u"ö"
+  ... ]);f.getvalue()
+  '\\xc3\\x83\\xc2\\xb6 '
+
+  The wierd result for this example are because of the way StringIO always
+  escape its content by it self.
+
+  """
+  file_object.write(" ".join(w.encode('utf8') for w in words if w != None)  + " ")
 
 def saveToFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
