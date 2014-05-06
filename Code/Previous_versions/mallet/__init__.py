@@ -187,7 +187,7 @@ def saveWordsPerTweet(dirname):
 # non-username words from tweets,
 # groups them by USER and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
-def saveWordsPerUser(dirname):
+def save_words_per_user(dirname):
     no_users = 0
     for user in db.collection.find():
         user_words = []
@@ -397,4 +397,4 @@ def saveWordsPerUserAll(dirname):
 if __name__ == "__main__":
 
     db = thtdb.ThtConnection(host='squib.de', dbName='karinas_twitter_db', collectionName='twitter-pldebatt-131006-new')
-    saveWordsPerUser('testaggreply')
+    save_words_per_user('testaggreply')
