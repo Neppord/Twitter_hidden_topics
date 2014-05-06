@@ -131,7 +131,7 @@ def updateClusterFiles(sub_cluster_files, word_list, new_key, dirname):
     mergeFiles(sub_cluster_files, new_key, dirname)
 
 
-def fileToList(filename):
+def file_to_list(filename):
         word_list = []
         ifile = io.open(internal_path + filename + '.txt', 'r')
         for word in ifile:
@@ -146,9 +146,9 @@ def fileToList(filename):
 # No metadata is saved. Filtering on tweets based on #pldebatt
 def saveWordsPerTweet(dirname):
     no_go_list = (
-        fileToList('english_stoplist') +
-        fileToList('swedish_stoplist') +
-        fileToList('domain_word_list')
+        file_to_list('english_stoplist') +
+        file_to_list('swedish_stoplist') +
+        file_to_list('domain_word_list')
     )
     for user in db.collection.find():
         if u'text' in user:
@@ -181,9 +181,9 @@ def saveWordsPerTweet(dirname):
 # No metadata is saved. Filtering on tweets based on #pldebatt
 def saveWordsPerUser(dirname):
     no_go_list = (
-        fileToList('english_stoplist') +
-        fileToList('swedish_stoplist') +
-        fileToList('domain_word_list')
+        file_to_list('english_stoplist') +
+        file_to_list('swedish_stoplist') +
+        file_to_list('domain_word_list')
     )
     no_users = 0
     for user in db.collection.find():
@@ -217,9 +217,9 @@ def saveWordsPerUser(dirname):
 # No metadata is saved. Filtering on tweets based on #pldebatt
 def saveWordsPerHashtag(dirname):
     no_go_list = (
-        fileToList('english_stoplist') +
-        fileToList('swedish_stoplist') +
-        fileToList('domain_word_list')
+        file_to_list('english_stoplist') +
+        file_to_list('swedish_stoplist') +
+        file_to_list('domain_word_list')
     )
     retweets = 0
     tweets = 0
@@ -267,9 +267,9 @@ def saveWordsPerHashtag(dirname):
 
 def saveWordsPerReply(dirname):
     no_go_list = (
-        fileToList('english_stoplist') +
-        fileToList('swedish_stoplist') +
-        fileToList('domain_word_list')
+        file_to_list('english_stoplist') +
+        file_to_list('swedish_stoplist') +
+        file_to_list('domain_word_list')
     )
     no_of_replies = 0
     for user in db.collection.find():
@@ -321,9 +321,9 @@ def saveWordsPerReply(dirname):
 # No metadata is saved. Filtering on tweets based on #pldebatt
 def saveWordsPerHashtagCluster(dirname):
     no_go_list = (
-        fileToList('english_stoplist') +
-        fileToList('swedish_stoplist') +
-        fileToList('domain_word_list')
+        file_to_list('english_stoplist') +
+        file_to_list('swedish_stoplist') +
+        file_to_list('domain_word_list')
     )
     cluster_dict = dict()
     for user in db.collection.find():
@@ -368,7 +368,7 @@ def saveWordsPerHashtagCluster(dirname):
 # The following function gathers non-username words from ALL tweets, groups them by user and saves them to a file.
 # No metadata is saved. No filtering on the tweets is made.
 def saveWordsPerUserAll(dirname):
-    no_go_list = fileToList('english_stoplist') + fileToList('swedish_stoplist')
+    no_go_list = file_to_list('english_stoplist') + file_to_list('swedish_stoplist')
     no_users = 0
     for user in db.collection.find():
         user_words = []
