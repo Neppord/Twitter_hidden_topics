@@ -1,9 +1,7 @@
-#from bson.son import SON
 import thtdb
 import io
 import os
 from thtpaths import internal_path
-#from bson.code import Code
 import random
 import itertools
 
@@ -20,7 +18,6 @@ def isRetweet(word_list):
 
 def saveToFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
-        #user_words_filename = internal_path+'/malletTwitterOctober/'+username
         ofile = io.open(file_path + filename + '.txt', 'wb')
         for word in word_list:
             if word is not None:
@@ -30,7 +27,6 @@ def saveToFile(word_list, filename, dirname):
 
 def updateFileWithFile(update_filename, filename, dirname):
     file_path = internal_path + dirname + '/'
-    #user_words_filename = internal_path+'/malletTwitterOctober/'+username
     ofile = io.open(file_path + update_filename + '.txt', 'ab')
     ifile = io.open(file_path + filename + '.txt', 'rb')
     for word in ifile:
@@ -43,7 +39,6 @@ def updateFileWithFile(update_filename, filename, dirname):
 def updateFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
         word_list.insert(0, '\n')
-        #user_words_filename = internal_path+'/malletTwitterOctober/'+username
         ofile = io.open(file_path + filename + '.txt', 'ab')
         for word in word_list:
             if word is not None:
@@ -97,7 +92,6 @@ def collapseSubCluster(cluster_dict, current_hashtags):
     hashtag_set = set(current_hashtags)
     for key, value in cluster_dict.iteritems():
         hashtag_set.update(value)
-    #print 'hashtag union: ', list(hashtag_set)
     return list(hashtag_set)
 
 
@@ -121,7 +115,6 @@ def updateFilesReturnNewDictElem(cluster_dict, hashtags, word_list, dirname):
             return sub_cluster_dict, [new_key, hashtags]
         else:
             sub_cluster_files = collapsedKeys(sub_cluster_dict)
-            #print 'subcluster collapsed filenames: ', sub_cluster_files
             new_hashtags = collapseSubCluster(sub_cluster_dict, hashtags)
             updateClusterFiles(sub_cluster_files, word_list, new_key, dirname)
             return sub_cluster_dict, [new_key, new_hashtags]
@@ -141,10 +134,8 @@ def updateClusterFiles(sub_cluster_files, word_list, new_key, dirname):
 def fileToList(filename):
         word_list = []
         ifile = io.open(internal_path + filename + '.txt', 'r')
-        #ifile = codecs.open(internal_path+filename+'.txt', 'rb', "utf-8")
         for word in ifile:
             word_list.append(word.replace('\n', ''))
-            #word_list.append((word.replace('\n','')).encode('utf8'))
         ifile.close()
         return word_list
 
@@ -201,10 +192,6 @@ def saveWordsPerUser(dirname):
             username = user[u'username']
             if u'text' in user:
                 for text in user[u'text']:
-                    #if u'mentions' in text:
-                    #    mentions_list = text[u'mentions'].split('|')
-                    #else:
-                    #    mentions_list = []
                     if u'hashtags' in text:
                         if "pldebatt" in text[u'hashtags']:
                             if u'sentence' in text:
@@ -212,10 +199,6 @@ def saveWordsPerUser(dirname):
                                     if u'w' in sentence:
                                         for word in sentence[u'w']:
                                             if u'val' in word:
-#                                                word_cond = word[u'val']!='pldebatt' and \
-#                                                            word[u'val'] not in mentions_list and \
-#                                                            word[u'val'] not in no_go_list
-#                                                if word_cond:
                                                 user_words.append(wordForTopics(word, u'lemma'))
         if u'username' in user:
             username = user[u'username']
@@ -324,7 +307,6 @@ def saveWordsPerReply(dirname):
                         else:
                             no_of_replies += 1
                             reply_status_id = text[u'replytostatus']
-                            #reply_user_id = text[u'replytouser']
                             print reply_status_id, tweet_id
                             if os.path.exists(internal_path + dirname + '/' + reply_status_id + '.txt'):
                                 updateFile(tweet_words, reply_status_id, dirname)
@@ -417,10 +399,6 @@ def saveWordsPerUserAll(dirname):
 
 
 if __name__ == "__main__":
-    #db = thtdb.ThtConnection(collectionName='test_pldebatt_june')
-    #db = thtdb.ThtConnection(collectionName='test_pldebatt_june')
 
     db = thtdb.ThtConnection(host='squib.de', dbName='karinas_twitter_db', collectionName='twitter-pldebatt-131006-new')
     saveWordsPerUser('testaggreply')
-    #saveWordsPerUserAll('malletTwitterLDA_short')
-    #mergeFiles(['#utbpol','#age','#aftonbladet'],'new','test')
