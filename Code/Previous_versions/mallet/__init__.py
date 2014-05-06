@@ -132,12 +132,12 @@ def updateClusterFiles(sub_cluster_files, word_list, new_key, dirname):
 
 
 def file_to_list(filename):
-        word_list = []
-        ifile = io.open(internal_path + filename + '.txt', 'r')
-        for word in ifile:
-            word_list.append(word.replace('\n', ''))
-        ifile.close()
-        return word_list
+    word_list = []
+    ifile = io.open(internal_path + filename + '.txt', 'r')
+    for word in ifile:
+        word_list.append(word.replace('\n', ''))
+    ifile.close()
+    return word_list
 
 
 # The following function gathers non-pldebatt and
