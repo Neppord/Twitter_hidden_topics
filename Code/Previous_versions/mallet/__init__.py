@@ -7,6 +7,13 @@ import itertools
 
 
 def isRetweet(word_list):
+    """
+    Usees the text in the tweet to check if its a retweet or not
+    
+    Empty tweets are retweets:
+    >>> isRetweet([])
+    True
+    """
     if len(word_list) > 0:
         if word_list[0] == 'RT' and word_list[0] == '@':
             return True
