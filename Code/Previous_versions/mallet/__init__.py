@@ -7,12 +7,12 @@ import thtdb
 from thtpaths import internal_path
 
 
-def isRetweet(word_list):
+def is_retweet(word_list):
     """
     Usees the text in the tweet to check if its a retweet or not
     
     Empty tweets are retweets:
-    >>> isRetweet([])
+    >>> is_retweet([])
     True
     """
     if len(word_list) > 0:
@@ -263,7 +263,7 @@ def saveWordsPerHashtag(dirname):
                                                     tweet_words.append(wordForTopics(word, u'lemma'))
                     if len(tweet_words) > 0:
                         tweets += 1
-                        if not isRetweet(tweet_words):
+                        if not is_retweet(tweet_words):
                             for hashtag in hashtags:
                                 if hashtag != u'#pldebatt':
                                     updateFile(tweet_words, hashtag, dirname)
