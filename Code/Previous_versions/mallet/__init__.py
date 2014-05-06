@@ -1,9 +1,10 @@
-import thtdb
 import io
 import os
-from thtpaths import internal_path
 import random
 import itertools
+
+import thtdb
+from thtpaths import internal_path
 
 
 def isRetweet(word_list):
