@@ -188,34 +188,22 @@ def saveWordsPerTweet(dirname):
 # groups them by USER and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
 def saveWordsPerUser(dirname):
-    no_go_list = (
-        file_to_list('english_stoplist') +
-        file_to_list('swedish_stoplist') +
-        file_to_list('domain_word_list')
-    )
     no_users = 0
     for user in db.collection.find():
         user_words = []
         if u'username' in user:
-            username = user[u'username']
-            if u'text' in user:
-                for text in user[u'text']:
-                    if u'hashtags' in text:
-                        if "pldebatt" in text[u'hashtags']:
-                            if u'sentence' in text:
-                                for sentence in text[u'sentence']:
-                                    if u'w' in sentence:
-                                        for word in sentence[u'w']:
-                                            if u'val' in word:
-                                                user_words.append(wordForTopics(word, u'lemma'))
-        if u'username' in user:
-            username = user[u'username']
-        else:
-            username = str(random.randint(1, 10000))
-        if len(user_words) > 0:
-            saveToFile(user_words, username, dirname)
-            no_users += 1
-        user_words = []
+            texts = user.get(u'text', [])
+            for text in texts:
+                if "pldebatt" in text.get(u'hashtags', []):
+                    for sentence in text.get(u'sentence', []):
+                        for word in sentence.get(u'w', []):
+                            if u'val' in word:
+                                user_word = wordForTopics(word, u'lemma')
+                                user_words.append(user_word)
+            if len(user_words) > 0:
+              username = user[u'username']
+              saveToFile(user_words, username, dirname)
+              no_users += 1
     print "number of LDA documents: ", no_users
 
 
