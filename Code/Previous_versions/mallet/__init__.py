@@ -4,7 +4,6 @@ import os
 import random
 import itertools
 
-import thtdb
 from thtpaths import internal_path
 
 
@@ -196,13 +195,13 @@ def file_to_list(filename):
 # non-username words from tweets,
 # groups them by TWEETS and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
-def saveWordsPerTweet(dirname):
+def saveWordsPerTweet(users, dirname):
     no_go_list = (
         file_to_list('english_stoplist') +
         file_to_list('swedish_stoplist') +
         file_to_list('domain_word_list')
     )
-    for user in db.collection.find():
+    for user in users:
         if u'text' in user:
             for text in user[u'text']:
                 if u'mentions' in text:
@@ -231,9 +230,9 @@ def saveWordsPerTweet(dirname):
 # non-username words from tweets,
 # groups them by USER and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
-def save_words_per_user(dirname):
+def save_words_per_user(users, dirname):
     no_users = 0
-    for user in db.collection.find():
+    for user in users:
         user_words = []
         if u'username' in user:
             texts = user.get(u'text', [])
@@ -255,7 +254,7 @@ def save_words_per_user(dirname):
 # non-username words from tweets,
 # groups them by USER and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
-def saveWordsPerHashtag(dirname):
+def saveWordsPerHashtag(users, dirname):
     no_go_list = (
         file_to_list('english_stoplist') +
         file_to_list('swedish_stoplist') +
@@ -263,7 +262,7 @@ def saveWordsPerHashtag(dirname):
     )
     retweets = 0
     tweets = 0
-    for user in db.collection.find():
+    for user in users:
         if u'username' in user:
             if u'text' in user:
                 for text in user[u'text']:
@@ -305,14 +304,14 @@ def saveWordsPerHashtag(dirname):
     print "Number of tweets: ", tweets
 
 
-def saveWordsPerReply(dirname):
+def saveWordsPerReply(users, dirname):
     no_go_list = (
         file_to_list('english_stoplist') +
         file_to_list('swedish_stoplist') +
         file_to_list('domain_word_list')
     )
     no_of_replies = 0
-    for user in db.collection.find():
+    for user in users:
         if u'username' in user:
             if u'text' in user:
                 for text in user[u'text']:
@@ -359,14 +358,14 @@ def saveWordsPerReply(dirname):
 # and non-username words from tweets,
 # groups them by USER and saves them to a file.
 # No metadata is saved. Filtering on tweets based on #pldebatt
-def saveWordsPerHashtagCluster(dirname):
+def saveWordsPerHashtagCluster(users, dirname):
     no_go_list = (
         file_to_list('english_stoplist') +
         file_to_list('swedish_stoplist') +
         file_to_list('domain_word_list')
     )
     cluster_dict = dict()
-    for user in db.collection.find():
+    for user in users:
         if u'username' in user:
             if u'text' in user:
                 for text in user[u'text']:
@@ -407,10 +406,10 @@ def saveWordsPerHashtagCluster(dirname):
 
 # The following function gathers non-username words from ALL tweets, groups them by user and saves them to a file.
 # No metadata is saved. No filtering on the tweets is made.
-def saveWordsPerUserAll(dirname):
+def saveWordsPerUserAll(users, dirname):
     no_go_list = file_to_list('english_stoplist') + file_to_list('swedish_stoplist')
     no_users = 0
-    for user in db.collection.find():
+    for user in users:
         user_words = []
         if u'username' in user:
             username = user[u'username']
@@ -439,6 +438,6 @@ def saveWordsPerUserAll(dirname):
 
 
 if __name__ == "__main__":
-
+    import thtdb
     db = thtdb.ThtConnection(host='squib.de', dbName='karinas_twitter_db', collectionName='twitter-pldebatt-131006-new')
-    save_words_per_user('testaggreply')
+    save_words_per_user(db.collection.find(), 'testaggreply')
