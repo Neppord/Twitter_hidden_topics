@@ -24,7 +24,7 @@ def is_retweet(word_list):
     else:
         return True
 
-def generate_save_path(internal_path, dirname,  filename):
+def generate_save_path(internal_path, dirname, filename):
   """
   example:
   >>> generate_save_path("/home/user/data_dir/", "files", "file")
@@ -61,6 +61,23 @@ def write_words(file_object, words):
 
   """
   file_object.write(" ".join(w.encode('utf8') for w in words if w != None)  + " ")
+
+def save_words_to_path(internal_path, dirname, filename, words):
+    """
+    convinience wraper for the write_words and generate_save_path function 
+    """
+    save_path = generate_save_path(internal_path, dirname, filename) 
+    with io.open(save_path, 'wb') as f:
+        write_words(f, words)
+
+def append_words_to_path(internal_path, dirname, filename, words):
+    """
+    open file on path in append mode and writes file list to the end of the file.
+    """
+    save_path = generate_save_path(internal_path, dirname, filename) 
+    with io.open(save_path, 'ab') as f:
+        write_words(f, words)
+  
 
 def saveToFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
