@@ -88,17 +88,6 @@ def saveToFile(word_list, filename, dirname):
         ofile.close()
 
 
-def updateFileWithFile(update_filename, filename, dirname):
-    file_path = internal_path + dirname + '/'
-    ofile = io.open(file_path + update_filename + '.txt', 'ab')
-    ifile = io.open(file_path + filename + '.txt', 'rb')
-    for word in ifile:
-        if word is not None:
-            ofile.write(word.encode('utf8') + ' ')
-    ofile.close()
-    ifile.close()
-
-
 def updateFile(word_list, filename, dirname):
         file_path = internal_path + dirname + '/'
         word_list.insert(0, '\n')
